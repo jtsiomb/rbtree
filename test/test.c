@@ -390,6 +390,19 @@ void keyb(unsigned char key, int x, int y)
 			glutPostRedisplay();
 		}
 		break;
+
+	case 'p':
+		{
+			struct rbnode *node;
+
+			rb_begin(tree);
+			while((node = rb_next(tree))) {
+				int key = rb_node_keyi(node);
+				printf("%d ", key);
+			}
+			putchar('\n');
+		}
+		break;
 	}
 }
 
