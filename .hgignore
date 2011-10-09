@@ -1,0 +1,6 @@
+\.o$
+\.d$
+\.swp$
+^Makefile$
+rbtree\.a$
+rbtree\.so

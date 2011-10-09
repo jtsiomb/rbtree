@@ -1,0 +1,58 @@
+src = $(wildcard src/*.c)
+obj = $(src:.c=.o)
+dep = $(obj:.o=.d)
+
+name = rbtree
+
+AR = ar
+CC = gcc
+CFLAGS = -pedantic -Wall $(dbg) $(opt) -fPIC
+
+ifeq ($(shell uname -s), Darwin)
+	lib_a = $(name).a
+	lib_so = $(name).dylib
+	shared = -dynamiclib $(lib_so)
+else
+	lib_a = lib$(name).a
+	devlink = lib$(name).so
+	soname = $(devlink).0
+	lib_so = $(soname).0
+	shared = -shared -Wl,-soname=$(soname)
+endif
+
+.PHONY: all
+all: $(lib_so) $(lib_a)
+
+$(lib_a): $(obj)
+	$(AR) rcs $(lib_a) $(obj)
+
+$(lib_so): $(obj)
+	$(CC) -o $@ $(shared) $(obj) $(LDFLAGS)
+
+-include $(dep)
+
+%.d: %.c
+	@$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
+
+.PHONY: clean
+clean:
+	rm -f $(obj) $(lib_a) $(lib_so)
+
+.PHONY: install
+install:
+	mkdir -p $(PREFIX)/include $(PREFIX)/lib
+	cp src/rbtree.h $(PREFIX)/include/rbtree.h
+	cp $(lib_a) $(PREFIX)/lib/$(lib_a)
+	cp $(lib_so) $(PREFIX)/lib/$(lib_so)
+	[ -n "$(soname)" ] \
+		&& rm -f $(PREFIX)/lib/$(soname) $(PREFIX)/lib/$(devlink) \
+		&& ln -s $(PREFIX)/lib/$(lib_so) $(PREFIX)/lib/$(soname) \
+		&& ln -s $(PREFIX)/lib/$(soname) $(PREFIX)/lib/$(devlink) \
+		|| true
+
+.PHONY: uninstall
+	rm -f $(PREFIX)/include/rbtree.h
+	rm -f $(PREFIX)/lib/$(lib_a)
+	rm -f $(PREFIX)/lib/$(lib_so)
+	rm -f $(PREFIX)/lib/$(soname)
+	rm -f $(PREFIX)/lib/$(devlink)
