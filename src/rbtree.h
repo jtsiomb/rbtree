@@ -22,7 +22,6 @@ typedef void (*rb_del_func_t)(struct rbnode*, void*);
 #define RB_KEY_INT		(rb_cmp_func_t)(1)
 #define RB_KEY_STRING	(rb_cmp_func_t)(3)
 
-typedef struct rbnode* rbiter_t;
 
 #ifdef __cplusplus
 extern "C" {
