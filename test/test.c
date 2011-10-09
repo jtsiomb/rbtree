@@ -102,7 +102,7 @@ void disp(void)
 	glLoadIdentity();
 
 	if(input_buffer[0]) {
-		char *prompt = "select node to delete: ";
+		char *prompt = "select node: ";
 		char *buf = alloca(strlen(prompt) + strlen(input_buffer));
 
 		glPushMatrix();
@@ -304,22 +304,11 @@ void keyb(unsigned char key, int x, int y)
 {
 	static int wposx = -1, wposy;
 	static char *inp_next;
+	static char op;
 
 	switch(key) {
 	case 27:
 		exit(0);
-
-	case 'f':
-	case 'F':
-		if(wposx >= 0) {
-			glutPositionWindow(wposx, wposy);
-			wposx = -1;
-		} else {
-			wposx = glutGet(GLUT_WINDOW_X);
-			wposy = glutGet(GLUT_WINDOW_Y);
-			glutFullScreen();
-		}
-		break;
 
 	case 'a':
 		rb_inserti(tree, num_nodes++, 0);
@@ -339,6 +328,8 @@ void keyb(unsigned char key, int x, int y)
 		break;
 
 	case 'd':
+	case 'f':
+		op = key;
 		inp_next = input_buffer;
 		*inp_next++ = ' ';
 		*inp_next = 0;
@@ -383,8 +374,12 @@ void keyb(unsigned char key, int x, int y)
 			} else if(!rb_findi(tree, x)) {
 				fprintf(stderr, "%d not found in the tree\n", x);
 			} else {
-				printf("deleting: %d\n", x);
-				rb_deletei(tree, x);
+				if(op == 'd') {
+					printf("deleting: %d\n", x);
+					rb_deletei(tree, x);
+				} else {
+					printf("%d found!\n", x);
+				}
 			}
 			input_buffer[0] = 0;
 			glutPostRedisplay();

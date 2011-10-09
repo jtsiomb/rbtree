@@ -26,7 +26,7 @@ static int count_nodes(struct rbnode *node);
 static void del_tree(struct rbnode *node, void (*delfunc)(struct rbnode*, void*), void *cls);
 static struct rbnode *insert(struct rbtree *rb, struct rbnode *tree, void *key, void *data);
 static struct rbnode *delete(struct rbtree *rb, struct rbnode *tree, void *key);
-static struct rbnode *find(struct rbtree *rb, struct rbnode *node, void *key);
+/*static struct rbnode *find(struct rbtree *rb, struct rbnode *node, void *key);*/
 static void traverse(struct rbnode *node, void (*func)(struct rbnode*, void*), void *cls);
 
 struct rbtree *rb_create(rb_cmp_func_t cmp_func)
@@ -127,12 +127,21 @@ int rb_deletei(struct rbtree *rb, int key)
 
 void *rb_find(struct rbtree *rb, void *key)
 {
-	return find(rb, rb->root, key);
+	struct rbnode *node = rb->root;
+
+	while(node) {
+		int cmp = rb->cmp(key, node->key);
+		if(cmp == 0) {
+			return node;
+		}
+		node = cmp < 0 ? node->left : node->right;
+	}
+	return 0;
 }
 
 void *rb_findi(struct rbtree *rb, int key)
 {
-	return find(rb, rb->root, INT2PTR(key));
+	return rb_find(rb, INT2PTR(key));
 }
 
 
@@ -322,7 +331,7 @@ static struct rbnode *delete(struct rbtree *rb, struct rbnode *tree, void *key)
 	return fix_up(tree);
 }
 
-static struct rbnode *find(struct rbtree *rb, struct rbnode *node, void *key)
+/*static struct rbnode *find(struct rbtree *rb, struct rbnode *node, void *key)
 {
 	int cmp;
 
@@ -333,7 +342,7 @@ static struct rbnode *find(struct rbtree *rb, struct rbnode *node, void *key)
 		return node;
 	}
 	return find(rb, cmp < 0 ? node->left : node->right, key);
-}
+}*/
 
 static void traverse(struct rbnode *node, void (*func)(struct rbnode*, void*), void *cls)
 {
@@ -381,10 +390,15 @@ static struct rbnode *rot_right(struct rbnode *a)
 
 static struct rbnode *find_min(struct rbnode *tree)
 {
-	if(!tree || !tree->left) {
-		return tree;
+	struct rbnode *node;
+
+	if(!tree)
+		return 0;
+
+	while(node->left) {
+		node = node->left;
 	}
-	return find_min(tree->left);
+	return node;
 }
 
 static struct rbnode *del_min(struct rbtree *rb, struct rbnode *tree)
