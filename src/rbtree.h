@@ -36,6 +36,7 @@ void rb_destroy(struct rbtree *rb);
 void rb_set_allocator(struct rbtree *rb, rb_alloc_func_t alloc, rb_free_func_t free);
 void rb_set_compare_func(struct rbtree *rb, rb_cmp_func_t func);
 void rb_set_delete_func(struct rbtree *rb, rb_del_func_t func, void *cls);
+/* TODO add user deep copy function */
 
 void rb_clear(struct rbtree *rb);
 int rb_copy(struct rbtree *dest, struct rbtree *src);
