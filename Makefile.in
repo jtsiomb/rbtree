@@ -11,7 +11,7 @@ CFLAGS = -pedantic -Wall $(dbg) $(opt) -fPIC
 ifeq ($(shell uname -s), Darwin)
 	lib_a = $(name).a
 	lib_so = $(name).dylib
-	shared = -dynamiclib $(lib_so)
+	shared = -dynamiclib
 else
 	lib_a = lib$(name).a
 	devlink = lib$(name).so

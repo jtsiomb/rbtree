@@ -90,6 +90,27 @@ void rb_set_delete_func(struct rbtree *rb, rb_del_func_t func, void *cls)
 	rb->del_cls = cls;
 }
 
+
+void rb_clear(struct rbtree *rb)
+{
+	del_tree(rb->root, rb->del, rb->del_cls);
+	rb->root = 0;
+}
+
+int rb_copy(struct rbtree *dest, struct rbtree *src)
+{
+	struct rbnode *node;
+
+	rb_clear(dest);
+	rb_begin(src);
+	while((node = rb_next(src))) {
+		if(rb_insert(dest, node->key, node->data) == -1) {
+			return -1;
+		}
+	}
+	return 0;
+}
+
 int rb_size(struct rbtree *rb)
 {
 	return count_nodes(rb->root);
