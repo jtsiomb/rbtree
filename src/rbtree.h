@@ -53,7 +53,7 @@ void rb_foreach(struct rbtree *rb, void (*func)(struct rbnode*, void*), void *cl
 struct rbnode *rb_root(struct rbtree *rb);
 
 void rb_begin(struct rbtree *rb);
-struct rbnode *rb_node_next(struct rbtree *rb);
+struct rbnode *rb_next(struct rbtree *rb);
 
 void *rb_node_key(struct rbnode *node);
 int rb_node_keyi(struct rbnode *node);
