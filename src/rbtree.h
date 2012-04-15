@@ -15,7 +15,7 @@ struct rbnode {
 typedef void *(*rb_alloc_func_t)(size_t);
 typedef void (*rb_free_func_t)(void*);
 
-typedef int (*rb_cmp_func_t)(void*, void*);
+typedef int (*rb_cmp_func_t)(const void*, const void*);
 typedef void (*rb_del_func_t)(struct rbnode*, void*);
 
 #define RB_KEY_ADDR		(rb_cmp_func_t)(0)
