@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include "rbtree.h"
 
-#define INT2PTR(x)	((void*)(x))
-#define PTR2INT(x)	((int)(x))
+#define INT2PTR(x)	((void*)(intptr_t)(x))
+#define PTR2INT(x)	((int)(intptr_t)(x))
 
 struct rbtree {
 	struct rbnode *root;
@@ -19,8 +20,8 @@ struct rbtree {
 	struct rbnode *rstack, *iter;
 };
 
-static int cmpaddr(void *ap, void *bp);
-static int cmpint(void *ap, void *bp);
+static int cmpaddr(const void *ap, const void *bp);
+static int cmpint(const void *ap, const void *bp);
 
 static int count_nodes(struct rbnode *node);
 static void del_tree(struct rbnode *node, void (*delfunc)(struct rbnode*, void*), void *cls);
@@ -221,12 +222,12 @@ void *rb_node_data(struct rbnode *node)
 	return node ? node->data : 0;
 }
 
-static int cmpaddr(void *ap, void *bp)
+static int cmpaddr(const void *ap, const void *bp)
 {
 	return ap < bp ? -1 : (ap > bp ? 1 : 0);
 }
 
-static int cmpint(void *ap, void *bp)
+static int cmpint(const void *ap, const void *bp)
 {
 	return PTR2INT(ap) - PTR2INT(bp);
 }
