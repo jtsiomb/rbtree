@@ -4,3 +4,4 @@
 ^Makefile$
 rbtree\.a$
 rbtree\.so
+^test/.*test$
