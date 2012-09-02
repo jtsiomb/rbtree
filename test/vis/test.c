@@ -33,6 +33,8 @@ int main(int argc, char **argv)
 {
 	int i;
 
+	init_gl(argc, argv);
+
 	if(argv[1]) {
 		if(!isdigit(argv[1][0])) {
 			fprintf(stderr, "pass a fucking number, not: %s\n", argv[1]);
@@ -54,7 +56,7 @@ int main(int argc, char **argv)
 		rb_inserti(tree, i, 0);
 	}
 
-	init_gl(argc, argv);
+	glutMainLoop();
 	return 0;
 }
 
@@ -75,7 +77,7 @@ void init_gl(int argc, char **argv)
 {
 	glutInitWindowSize(1280, 720);
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_MULTISAMPLE);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE | GLUT_MULTISAMPLE);
 
 	glutCreateWindow("foo");
 
@@ -87,8 +89,6 @@ void init_gl(int argc, char **argv)
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
-
-	glutMainLoop();
 }
 
 void disp(void)
