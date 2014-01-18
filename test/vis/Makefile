@@ -5,7 +5,7 @@ font = linux-libertine.ttf
 
 CC = gcc
 CFLAGS = -pedantic -Wall -g -I../src -I/usr/local/include
-LDFLAGS = -L.. -L/usr/local/lib $(libgl) -lrbtree -ldrawtext
+LDFLAGS = -L.. -L/usr/local/lib $(libgl) -lrbtree -ldrawtext -lm
 
 ifeq ($(shell uname -s), Darwin)
 	libgl = -framework OpenGL -framework GLUT
