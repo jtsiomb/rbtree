@@ -5,3 +5,5 @@
 rbtree\.a$
 rbtree\.so
 ^test/.*test$
+\.ttf$
+linlibertine/
