@@ -421,15 +421,13 @@ static struct rbnode *rot_right(struct rbnode *a)
 
 static struct rbnode *find_min(struct rbnode *tree)
 {
-	struct rbnode *node;
-
 	if(!tree)
 		return 0;
 
-	while(node->left) {
-		node = node->left;
+	while(tree->left) {
+		tree = tree->left;
 	}
-	return node;
+	return tree;
 }
 
 static struct rbnode *del_min(struct rbtree *rb, struct rbnode *tree)
