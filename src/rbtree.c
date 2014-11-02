@@ -62,12 +62,14 @@ int rb_init(struct rbtree *rb, rb_cmp_func_t cmp_func)
 {
 	memset(rb, 0, sizeof *rb);
 
-	if(cmp_func == RB_KEY_INT) {
+	if(!cmp_func) {
+		rb->cmp = cmpaddr;
+	} else if(cmp_func == RB_KEY_INT) {
 		rb->cmp = cmpint;
 	} else if(cmp_func == RB_KEY_STRING) {
 		rb->cmp = (rb_cmp_func_t)strcmp;
 	} else {
-		rb->cmp = cmpaddr;
+		rb->cmp = cmp_func;
 	}
 
 	rb->alloc = malloc;
@@ -154,7 +156,7 @@ int rb_deletei(struct rbtree *rb, int key)
 }
 
 
-void *rb_find(struct rbtree *rb, void *key)
+struct rbnode *rb_find(struct rbtree *rb, void *key)
 {
 	struct rbnode *node = rb->root;
 
@@ -168,7 +170,7 @@ void *rb_find(struct rbtree *rb, void *key)
 	return 0;
 }
 
-void *rb_findi(struct rbtree *rb, int key)
+struct rbnode *rb_findi(struct rbtree *rb, int key)
 {
 	return rb_find(rb, INT2PTR(key));
 }

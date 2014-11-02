@@ -56,8 +56,8 @@ int rb_inserti(struct rbtree *rb, int key, void *data);
 int rb_delete(struct rbtree *rb, void *key);
 int rb_deletei(struct rbtree *rb, int key);
 
-void *rb_find(struct rbtree *rb, void *key);
-void *rb_findi(struct rbtree *rb, int key);
+struct rbnode *rb_find(struct rbtree *rb, void *key);
+struct rbnode *rb_findi(struct rbtree *rb, int key);
 
 void rb_foreach(struct rbtree *rb, void (*func)(struct rbnode*, void*), void *cls);
 
