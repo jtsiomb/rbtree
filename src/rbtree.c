@@ -143,15 +143,17 @@ int rb_inserti(struct rbtree *rb, int key, void *data)
 
 int rb_delete(struct rbtree *rb, void *key)
 {
-	rb->root = delete(rb, rb->root, key);
-	rb->root->red = 0;
+	if((rb->root = delete(rb, rb->root, key))) {
+		rb->root->red = 0;
+	}
 	return 0;
 }
 
 int rb_deletei(struct rbtree *rb, int key)
 {
-	rb->root = delete(rb, rb->root, INT2PTR(key));
-	rb->root->red = 0;
+	if((rb->root = delete(rb, rb->root, INT2PTR(key)))) {
+		rb->root->red = 0;
+	}
 	return 0;
 }
 
