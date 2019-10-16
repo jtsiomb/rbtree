@@ -4,7 +4,7 @@ Copyright (C) 2011-2014  John Tsiombikas <nuclear@member.fsf.org>
 
 rbtree is free software, feel free to use, modify, and redistribute it, under
 the terms of the 3-clause BSD license. See COPYING for details.
- */
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -231,6 +231,11 @@ int rb_node_keyi(struct rbnode *node)
 void *rb_node_data(struct rbnode *node)
 {
 	return node ? node->data : 0;
+}
+
+void rb_node_setdata(struct rbnode *node, void *data)
+{
+	node->data = data;
 }
 
 static int cmpaddr(const void *ap, const void *bp)

@@ -4,7 +4,7 @@ Copyright (C) 2011-2014  John Tsiombikas <nuclear@member.fsf.org>
 
 rbtree is free software, feel free to use, modify, and redistribute it, under
 the terms of the 3-clause BSD license. See COPYING for details.
- */
+*/
 #ifndef RBTREE_H_
 #define RBTREE_H_
 
@@ -69,6 +69,7 @@ struct rbnode *rb_next(struct rbtree *rb);
 void *rb_node_key(struct rbnode *node);
 int rb_node_keyi(struct rbnode *node);
 void *rb_node_data(struct rbnode *node);
+void rb_node_setdata(struct rbnode *node, void *data);
 
 #ifdef __cplusplus
 }
