@@ -1,0 +1,10 @@
+*.o
+*.d
+*.swp
+Makefile
+*.a
+*.so
+*.so.*
+test
+*.ttf
+linlibertine

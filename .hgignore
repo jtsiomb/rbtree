@@ -1,9 +1,0 @@
-\.o$
-\.d$
-\.swp$
-^Makefile$
-rbtree\.a$
-rbtree\.so
-^test/.*test$
-\.ttf$
-linlibertine/
