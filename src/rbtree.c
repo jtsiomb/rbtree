@@ -304,6 +304,16 @@ static struct rbnode *insert(struct rbtree *rb, struct rbnode *tree, void *key, 
 	} else if(cmp > 0) {
 		tree->right = insert(rb, tree->right, key, data);
 	} else {
+		if(rb->del) {
+			/* The key passed in was allocated in a way that would be cleaned by the
+			 * user-supplied delete function. We can't just assign the data and ignore
+			 * key in this case, or we'll leak memory. But we also can't make a dummy
+			 * node and pass that to rb->del, because it might also expect to free data.
+			 * So we must instead delete the existing node's contents, and use the new ones.
+			 */
+			rb->del(tree, rb->del_cls);
+			tree->key = key;
+		}
 		tree->data = data;
 	}
 
